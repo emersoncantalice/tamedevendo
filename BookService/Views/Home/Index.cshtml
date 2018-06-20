@@ -1,0 +1,110 @@
+﻿@section scripts {
+  @Scripts.Render("~/bundles/app")
+}
+
+<div class="page-header">
+  <h1>Tá me devendo!</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Pendurados:</h2>
+            </div>
+            <div class="panel-body">
+                <ul class="list-unstyled" data-bind="foreach: dividas">
+                    <li>
+                        <strong><span data-bind="text: ClienteNome"></span></strong>: <span data-bind="text: Descricao"></span>
+                        <!-- New code -->
+                        <small><a href="#" data-bind="click: $parent.getDividaDetail">Detalhe</a></small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    </div>
+    <!-- ko if:detail() -->
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Detalhe</h2>
+            </div>
+            <table class="table">
+                <tr><td>Cliente</td><td data-bind="text: detail().ClienteNome"></td></tr>
+                <tr><td>Descrição</td><td data-bind="text: detail().Descricao"></td></tr>
+                <tr><td>Data</td><td data-bind="text: detail().Data"></td></tr>
+                <tr><td>Preço</td><td data-bind="text: detail().Preco"></td></tr>
+                <tr><td>Status</td><td data-bind="text: detail().Status ? 'Pago' : 'Devendo'"></td></tr>
+            </table>
+        </div>
+    </div>
+    <!-- /ko -->
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Adicionar divida</h2>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" data-bind="submit: addDivida">
+                    <div class="form-group">
+                        <label for="inputCliente" class="col-sm-2 control-label">Cliente</label>
+                        <div class="col-sm-10">
+                            <select data-bind="options:clientes, optionsText: 'Nome', value: newDivida.Cliente"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-bind="with: newDivida">
+                        <label for="inputDescricao" class="col-sm-2 control-label">Descrição</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputDescricao" data-bind="value:Descricao" placeholder="Descrição" />
+                        </div>
+                        <label for="inputData" class="col-sm-2 control-label">Data</label>
+                        <div class="col-sm-10">
+                            <input type="datetime-local" class="form-control" id="inputData" data-bind="value:Data" placeholder="--/--/----" />
+                        </div>
+                        <label for="inputPreco" class="col-sm-2 control-label">Preco</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="inputPreco" data-bind="value:Preco" placeholder="10.00" />
+                        </div>
+
+                        <label for="inputStatus" class="col-sm-2 control-label">Status</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" step="any" class="form-control" id="inputStatus" data-bind="value:Status" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Adicionar Devedor</h2>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" data-bind="submit: addCliente">
+
+                    <div class="form-group" data-bind="with: newCliente">
+                        <label for="inputNome" class="col-sm-2 control-label">Nome</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputNome" data-bind="value:Nome" placeholder="Nome" />
+                        </div>
+
+                        <label for="inputTelefone" class="col-sm-2 control-label">Telefone</label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" id="inputTelefone" data-bind="value:Telefone" placeholder="Telefone" />
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-default">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h2>Total a receber:</h2>
+    <output type="number" class="form-control" id="inputTotal" data-bind="value:total"></output>
+
+</div>
